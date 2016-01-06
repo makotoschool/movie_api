@@ -88,6 +88,15 @@ body {
     color: white;
 }
 
+.search {
+width:400px;
+}
+
+.result {
+border-bottom:2px solid #ccc;
+}
+
+
 /* ==============
     MOBILE: Menu
    ============== */
@@ -371,3 +380,4 @@ nav a:hover {
         page-break-after: avoid;
     }
 }
+

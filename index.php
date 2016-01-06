@@ -1,5 +1,27 @@
 <?php
-require_once('search.php');
+if(isset($_POST['msearch'])){
+	$search=htmlspecialchars($_POST['msearch'],ENT_QUOTES);
+	// ファイルからJSONを読み込み
+	$json = file_get_contents("https://api.themoviedb.org/3/search/movie?api_key=002e50c7a2505b32c630b7bd2f07b82b&query=".$search."%");
+
+	// 文字化けするかもしれないのでUTF-8に変換
+	$json = mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+	// オブジェクト毎にパース
+	// trueを付けると連想配列として分解して格納してくれます。
+	$obj = json_decode($json, true);
+ 
+	// パースに失敗した時は処理終了
+	if ($obj === NULL) {
+	return;
+	}
+/*パースする時の確認用
+echo '<pre>';
+print_r($obj);
+echo '</pre>';
+*/
+}
+
+
 
 ?>
 <!doctype html>
@@ -10,7 +32,7 @@ require_once('search.php');
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>海外映画・ドラマ検索</title>
+        <title>海外映画検索</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -29,7 +51,8 @@ require_once('search.php');
 
         <div class="header-container">
             <header class="wrapper clearfix">
-                <h1 class="title">海外映画・ドラマを検索しちゃう</h1>
+                <h1 class="title">海外映画を検索しちゃう</h1>
+                <!--
                 <nav>
                     <ul>
                         <li><a href="#">nav ul li a</a></li>
@@ -37,6 +60,7 @@ require_once('search.php');
                         <li><a href="#">nav ul li a</a></li>
                     </ul>
                 </nav>
+                -->
             </header>
         </div>
 
@@ -48,7 +72,7 @@ require_once('search.php');
                         <h1>映画検索</h1>
 						<div class="search">
 							<form method="post" action="">
-								<input type="text" name="msearch" placefolder="ここに映画のタイトルを乳禄してください" reqired>
+								<input type="text" name="msearch" class="search"placeholder="ここに映画のタイトルを英語で記入してね" required>
 								<input type="submit" value="検索する">		
 							
 							</form>
@@ -57,12 +81,23 @@ require_once('search.php');
                     </header>
                     
                     <section>
-                    	<?php foreach($obj['results'] as $movie):?>
-                    		<p><img src="http://image.tmdb.org/t/p/w500/<?php echo $movie['poster_path'];?>"></p>
+                    	<?php 
+                    		if(isset($_POST['msearch'])):
+                    			foreach($obj['results'] as $movie):?>
+                    				<div class="result">
+                    					<h2><?php echo $movie['original_title']; ?></h2>
+                    						<p>release_date---<?php echo $movie['release_date']; ?></p>
+                    						<p>language---<?php echo $movie['original_language']; ?></p>
+             								<?php if($movie['poster_path']):?>
+                    							<p><img src="http://image.tmdb.org/t/p/w500/<?php echo $movie['poster_path'];?>"></p>
+                    						<?php else: ?>
+                    							<p>ポスター画像はありません</p>
+                    						<?php endif; ?>
+                    					<p><?php echo $movie['overview']; ?></p>
 							
 							
-							
-						<?php endforeach;?>
+									</div>
+						<?php endforeach;endif;?>
                     
                     
                     </section>
@@ -80,7 +115,16 @@ require_once('search.php');
                 </article>
 
                 <aside>
-                    <h3>aside</h3>
+                    <h3>apiの練習用に作りました</h3>
+                    <p>
+                    The Movie Database Apiをつかっています。
+                    リクエストするとJSON形式で結果が返ってきます
+                    あとはそれをパースするだけです。<br>
+                  
+                    参考のためにソースコードをgithubにあげています。<br>
+                    index.phpにプログラムを書いております。<br>
+                    <a href="https://github.com/makotoschool/movie_api" target="blank">https://github.com/makotoschool/movie_api</a>	
+                    </p>
                 </aside>
 
             </div> <!-- #main -->
