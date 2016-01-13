@@ -14,11 +14,11 @@ if(isset($_POST['msearch'])){
 	if ($obj === NULL) {
 	return;
 	}
-/*パースする時の確認用
+
 echo '<pre>';
 print_r($obj);
 echo '</pre>';
-*/
+
 }
 
 
