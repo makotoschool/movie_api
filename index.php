@@ -89,16 +89,16 @@ function h($v){
 								<input type="submit" value="検索する">		
 							
 							</form>
-							<form method="get" action="">
+							<form id="genre_select" method="get" action="">
 								<label for="glink">ジャンル検索</label><br>
-								<select name="glink">
+								<select id="gselect" name="glink">
 									<?php foreach($genre_name as $n=>$s):?>
 									
 									<option value="<?= $n;?>"><?= $s?></option>
 							
 									<?php endforeach; ?>
 								</select>
-								<input type="submit" value="検索する">
+								
 							</form>
 						</div>
 						
