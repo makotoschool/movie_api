@@ -80,14 +80,17 @@ function h($v){
 
                 <article>
                     <header>
-                        <h1>映画検索</h1>
+                        <h1>映画情報検索</h1>
 						<div class="search">
+						
 							<form method="post" action="">
-								<input type="text" name="msearch" class="search"placeholder="ここに映画のタイトルを英語で記入してね" required>
+								<label for="msearch">キーワード検索</label><br>
+								<input type="text" name="msearch" class="msearch"placeholder="ここに映画のタイトルを英語で記入してね" required>
 								<input type="submit" value="検索する">		
 							
 							</form>
 							<form method="get" action="">
+								<label for="glink">ジャンル検索</label><br>
 								<select name="glink">
 									<?php foreach($genre_name as $n=>$s):?>
 									
