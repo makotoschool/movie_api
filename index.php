@@ -15,10 +15,11 @@ if(isset($_POST['msearch'])){
 	return;
 	}
 require_once(__DIR__.'/data/genre.php');
+/*
 echo '<pre>';
 print_r($obj);
 echo '</pre>';
-
+*/
 }
 
 
@@ -94,19 +95,17 @@ echo '</pre>';
                  							
                     							endforeach;
                     							?>
-                    						
-                    						
-                    						
+               
                     						</li>
-                    						<li>release_date&nbsp;&nbsp;<?= $movie['release_date']; ?></li>
-                    						<li>language&nbsp;&nbsp;<?= $movie['original_language']; ?></li>
+                    						<?= $movie['release_date']?"<li>release_date&nbsp;&nbsp;".$movie['release_date']."</li>":'';?>
+                    						<?= $movie['original_language']?"<li>original_language&nbsp;&nbsp;".$movie['original_language']."</li>":'';?>
                     						</ul>
-             								<?php if($movie['poster_path']):?>
-                    							<p><img src="http://image.tmdb.org/t/p/w500/<?php echo $movie['poster_path'];?>"></p>
-                    						<?php else: ?>
-                    							<p>ポスター画像はありません</p>
-                    						<?php endif; ?>
-                    					<p><?= $movie['overview']; ?></p>
+                    						<p>
+             								<?= $movie['poster_path']?"<img src='http://image.tmdb.org/t/p/w500/".$movie['poster_path']."'>":'<p>ポスターはありません</p>'; ?>
+                    						</p>
+                    						<p>
+                    						<?= $movie['overview']?$movie['overview']:'';?>
+                    						</p>
 							
 							
 									</div>
