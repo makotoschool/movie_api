@@ -1,31 +1,39 @@
 <?php
 require_once(__DIR__.'/data/genre.php');
 if(isset($_POST['msearch'])){
-	$search=htmlspecialchars($_POST['msearch'],ENT_QUOTES);
+	$search=h($_POST['msearch']);
 	// ファイルからJSONを読み込み
-	$json = file_get_contents("https://api.themoviedb.org/3/search/movie?api_key=002e50c7a2505b32c630b7bd2f07b82b&query=".$search."%");
-
+	$serach = file_get_contents("https://api.themoviedb.org/3/search/movie?api_key=002e50c7a2505b32c630b7bd2f07b82b&query=".$search."%");
 	// 文字化けするかもしれないのでUTF-8に変換
-	$json = mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
+	$serach = mb_convert_encoding($serach, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
 	// オブジェクト毎にパース
 	// trueを付けると連想配列として分解して格納してくれます。
-	$obj = json_decode($json, true);
+	$obj = json_decode($serach, true);
+ 	$_POST['msearch']=array();
+	// パースに失敗した時は処理終了
+	if ($obj === NULL) {
+	return;
+	}
+}
+//ジャンル検索リクエスト発行
+if(isset($_GET['glink'])){
+	$glink=h($_GET['glink']);
+	$s_g = file_get_contents("https://api.themoviedb.org/3/genre/".$glink."/movies?api_key=002e50c7a2505b32c630b7bd2f07b82b");
+	$obj = json_decode($s_g, true);
  
 	// パースに失敗した時は処理終了
 	if ($obj === NULL) {
 	return;
 	}
 }
-if(isset($_GET['glink'])){
-$glink=htmlspecialchars($_GET['glink'],ENT_QUOTES,'utf-8');
-
-}
 /*
 echo '<pre>';
 print_r($obj);
 echo '</pre>';
 */
-
+function h($v){
+ return htmlspecialchars($v,ENT_QUOTES,'utf-8');
+}
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -54,7 +62,7 @@ echo '</pre>';
 
         <div class="header-container">
             <header class="wrapper clearfix">
-                <h1 class="title">海外映画を検索しちゃう</h1>
+                <a href="index.php"><h1 class="title">海外映画を検索しちゃう</h1></a>
                 <!--
                 <nav>
                     <ul>
@@ -85,7 +93,7 @@ echo '</pre>';
                     
                     <section>
                     	<?php 
-                    		if(isset($_POST['msearch'])):
+                    		if(isset($_POST['msearch'])|| isset($_GET['glink'])):
                     			foreach($obj['results'] as $movie):?>
                     				<div class="result">
                     					<h2><?= $movie['original_title']; ?></h2>
@@ -93,7 +101,7 @@ echo '</pre>';
                     						<li>ganre&nbsp;&nbsp;
                     							<?php foreach($movie['genre_ids'] as $genre_id):
                     								$args=$genre_id;?>
-                    								<a href="<?='./index.php?glink='.$genre_name[$args];?>"><?=$genre_name[$args];?></a>
+                    								<a href="<?='./index.php?glink='.$args;?>"><?=$genre_name[$args];?></a>
                  							
                     							<?php endforeach;?>
                
