@@ -14,7 +14,7 @@ if(isset($_POST['msearch'])){
 	if ($obj === NULL) {
 	return;
 	}
-
+require_once(__DIR__.'/data/genre.php');
 echo '<pre>';
 print_r($obj);
 echo '</pre>';
@@ -85,15 +85,27 @@ echo '</pre>';
                     		if(isset($_POST['msearch'])):
                     			foreach($obj['results'] as $movie):?>
                     				<div class="result">
-                    					<h2><?php echo $movie['original_title']; ?></h2>
-                    						<p>release_date---<?php echo $movie['release_date']; ?></p>
-                    						<p>language---<?php echo $movie['original_language']; ?></p>
+                    					<h2><?= $movie['original_title']; ?></h2>
+                    						<ul class="info">
+                    						<li>ganre&nbsp;&nbsp;
+                    							<?php foreach($movie['genre_ids'] as $genre_id):
+                    								echo sprintf('%d,',$genre_id);
+                    							
+                    							endforeach;
+                    							?>
+                    						
+                    						
+                    						
+                    						</li>
+                    						<li>release_date&nbsp;&nbsp;<?= $movie['release_date']; ?></li>
+                    						<li>language&nbsp;&nbsp;<?= $movie['original_language']; ?></li>
+                    						</ul>
              								<?php if($movie['poster_path']):?>
                     							<p><img src="http://image.tmdb.org/t/p/w500/<?php echo $movie['poster_path'];?>"></p>
                     						<?php else: ?>
                     							<p>ポスター画像はありません</p>
                     						<?php endif; ?>
-                    					<p><?php echo $movie['overview']; ?></p>
+                    					<p><?= $movie['overview']; ?></p>
 							
 							
 									</div>
