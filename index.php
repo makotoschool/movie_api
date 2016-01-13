@@ -94,10 +94,10 @@ function h($v){
 								<select id="gselect" name="glink">
 									<?php foreach($genre_name as $n=>$s):?>
 										<?php if($n==$glink):?>
-										<option value="<?= $n;?>" selected><?= $s?></option>
+											<option value="<?= $n;?>" selected><?= $s?></option>
+										<?php else:?>
+											<option value="<?= $n;?>"><?= $s?></option>
 										<?php endif;?>
-										<option value="<?= $n;?>"><?= $s?></option>
-							
 									<?php endforeach; ?>
 								</select>
 								
