@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__.'/data/genre.php');
 if(isset($_POST['msearch'])){
 	$search=htmlspecialchars($_POST['msearch'],ENT_QUOTES);
 	// ファイルからJSONを読み込み
@@ -14,15 +15,16 @@ if(isset($_POST['msearch'])){
 	if ($obj === NULL) {
 	return;
 	}
-require_once(__DIR__.'/data/genre.php');
+}
+if(isset($_GET['glink'])){
+$glink=htmlspecialchars($_GET['glink'],ENT_QUOTES,'utf-8');
+
+}
 /*
 echo '<pre>';
 print_r($obj);
 echo '</pre>';
 */
-}
-
-
 
 ?>
 <!doctype html>
@@ -90,11 +92,10 @@ echo '</pre>';
                     						<ul class="info">
                     						<li>ganre&nbsp;&nbsp;
                     							<?php foreach($movie['genre_ids'] as $genre_id):
-                    								$args=$genre_id;
-                    								echo $genre_name[$args].',';
+                    								$args=$genre_id;?>
+                    								<a href="<?='./index.php?glink='.$genre_name[$args];?>"><?=$genre_name[$args];?></a>
                  							
-                    							endforeach;
-                    							?>
+                    							<?php endforeach;?>
                
                     						</li>
                     						<?= $movie['release_date']?"<li>release_date&nbsp;&nbsp;".$movie['release_date']."</li>":'';?>
