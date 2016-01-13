@@ -93,8 +93,10 @@ function h($v){
 								<label for="glink">ジャンル検索</label><br>
 								<select id="gselect" name="glink">
 									<?php foreach($genre_name as $n=>$s):?>
-									
-									<option value="<?= $n;?>"><?= $s?></option>
+										<?php if($n==$glink):?>
+										<option value="<?= $n;?>" selected><?= $s?></option>
+										<?php endif;?>
+										<option value="<?= $n;?>"><?= $s?></option>
 							
 									<?php endforeach; ?>
 								</select>
