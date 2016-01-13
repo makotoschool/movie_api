@@ -89,8 +89,9 @@ echo '</pre>';
                     						<ul class="info">
                     						<li>ganre&nbsp;&nbsp;
                     							<?php foreach($movie['genre_ids'] as $genre_id):
-                    								echo sprintf('%d,',$genre_id);
-                    							
+                    								$args=$genre_id;
+                    								echo $genre_name[$args].',';
+                 							
                     							endforeach;
                     							?>
                     						

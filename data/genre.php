@@ -1,5 +1,5 @@
 <?php
-$ganre=array(
+$genre_name=array(
 '28'=>'Action',
 '12'=>'Adventure',
 '16'=>'Animation',
